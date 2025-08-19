@@ -1,4 +1,3 @@
-import type { Wallet } from '@coral-xyz/anchor';
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { useRef, useState } from 'react';
 
@@ -78,8 +77,9 @@ export default function SeatAllocator() {
 
       // Create proper Anchor provider using a minimal wallet wrapper around the uploaded Keypair
       const { AnchorProvider } = await import('@coral-xyz/anchor');
-      const browserWallet: Wallet = {
+      const browserWallet: any = {
         publicKey: adminWallet.publicKey,
+        payer: adminWallet,
         signTransaction: async (tx: any) => {
           // Partial sign with the admin keypair (legacy Transaction)
           if (typeof tx.partialSign === 'function') {

@@ -21,8 +21,8 @@ export default function SeatAllocator() {
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // RPC URL from environment or default
-  const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL || 'https://martita-mj6c17-fast-mainnet.helius-rpc.com';
+  // RPC URL from environment (no hardcoded default)
+  const RPC_URL = process.env.NEXT_PUBLIC_RPC_URL ?? '';
 
   const addLog = (message: string) => {
     const timestamp = new Date().toLocaleTimeString();
@@ -69,9 +69,10 @@ export default function SeatAllocator() {
       addLog(`Target address: ${address}`);
       addLog(`Admin wallet: ${adminWallet.publicKey.toString()}`);
 
-      // Import the actual Paystream program and admin client
-      const { PaystreamV1Program } = await import('@meimfhd/paystream-v1');
-      const { PaystreamV1AdminClient } = await import('@meimfhd/paystream-v1/src/clients/paystream-admin-client');
+      // Import the actual Paystream program and admin client from the SDK root
+      const { PaystreamV1Program, PaystreamV1AdminClient } = await import(
+        '@meimfhd/paystream-v1'
+      );
 
       // Create proper Anchor provider using a minimal wallet wrapper around the uploaded Keypair
       const { AnchorProvider } = await import('@coral-xyz/anchor');

@@ -69,9 +69,11 @@ export default function SeatAllocator() {
       addLog(`Target address: ${address}`);
       addLog(`Admin wallet: ${adminWallet.publicKey.toString()}`);
 
-      // Import the actual Paystream program and admin client from the SDK root
-      const { PaystreamV1Program, PaystreamV1AdminClient } = await import(
-        '@meimfhd/paystream-v1'
+      // Import the actual Paystream program from SDK root
+      const { PaystreamV1Program } = await import('@meimfhd/paystream-v1');
+      // Import Admin client from built output (not exported at package root in current npm version)
+      const { PaystreamV1AdminClient } = await import(
+        '@meimfhd/paystream-v1/dist/clients/paystream-admin-client.js'
       );
 
       // Create proper Anchor provider using a minimal wallet wrapper around the uploaded Keypair
